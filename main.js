@@ -161,3 +161,97 @@ const inventory = [
     sold: 8,
   },
 ];
+
+// loops using the map method extracting the types into a new array
+const tvTypes = inventory.map((item) => {
+  return item.name
+})
+
+// loops using the filter method looking for soldout items
+const soldOut = inventory.filter((item) => {
+  // checks if items sold equeals the original stock before returning as soldOut
+  if (item.originalStock - item.sold === 0) {
+    return item
+  }
+})
+
+// loops looking for AmbiLight option
+const hasAmbiLight = inventory.filter((item) => {
+  // only returns if AmbiLight comes back as True
+  return item.options.ambiLight
+})
+
+// loops through and sorts the inventory based on price
+const priceSorted = inventory.sort((a, b) => {
+  // compares the price of 2 entries putting 1 ahead of the other based on positive or negative numbers
+  return a.price - b.price
+})
+
+// logs the outcomes of the previous scripts
+console.log('Deel 1')
+console.log(tvTypes)
+console.log(soldOut)
+console.log(hasAmbiLight)
+console.log(priceSorted)
+
+// preps the variable for TVs sold
+let tvsSold = 0
+
+// loops through the array using the forEach method
+inventory.forEach((item) => {
+  tvsSold = tvsSold + item.sold
+})
+
+// creates a new p element
+const soldCounter = document.createElement('p')
+// sets the text inside to the number stored in TvsSold
+soldCounter.textContent = tvsSold.toString()
+// changes the color to green
+soldCounter.style.color = 'green'
+// gets the location where it needs to be place on the page
+soldBox = document.getElementById('tvs-sold')
+// places it on the page
+soldBox.appendChild(soldCounter)
+
+// preps the variable for bought tvs
+let tvsBought = 0
+
+// loops through the array using the forEach method
+inventory.forEach((item) => {
+  tvsBought = tvsBought + item.originalStock
+})
+
+// creates a new p element
+const boughtCounter = document.createElement('p')
+// sets the text inside to the number stored
+boughtCounter.textContent = tvsBought.toString()
+// changes the color to blue
+boughtCounter.style.color = 'blue'
+// gets the location where it needs to be place on the page
+boughtBox = document.getElementById('tvs-bought')
+// places it on the page
+boughtBox.appendChild(boughtCounter)
+
+// subtracts sold TVs from stock
+let leftInStock = tvsBought - tvsSold
+// creates a new element to store it in
+const stockCounter = document.createElement('p')
+// stores the number inside the new element
+stockCounter.textContent = leftInStock.toString()
+// sets the colour of the new element
+stockCounter.style.color = 'red'
+
+stockBox = document.getElementById('in-stock')
+
+stockBox.appendChild(stockCounter)
+
+
+
+
+
+
+// logs the outcomes of the previous scripts
+console.log('Deel 2')
+console.log(tvsSold)
+console.log(tvsBought)
+console.log(leftInStock)
