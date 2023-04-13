@@ -1,0 +1,9 @@
+html {
+    background: beige;
+}
+
+section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

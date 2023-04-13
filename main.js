@@ -194,6 +194,7 @@ console.log(soldOut)
 console.log(hasAmbiLight)
 console.log(priceSorted)
 
+
 // preps the variable for TVs sold
 let tvsSold = 0
 
@@ -240,18 +241,107 @@ const stockCounter = document.createElement('p')
 stockCounter.textContent = leftInStock.toString()
 // sets the colour of the new element
 stockCounter.style.color = 'red'
-
+// preps the location on the page
 stockBox = document.getElementById('in-stock')
-
+// places it on the page
 stockBox.appendChild(stockCounter)
-
-
-
-
-
 
 // logs the outcomes of the previous scripts
 console.log('Deel 2')
 console.log(tvsSold)
 console.log(tvsBought)
 console.log(leftInStock)
+
+function  showBrands() {
+  // creates a new array with all the brands in the inventory
+  const brandList = inventory.map((item) => {
+    return item.brand
+  })
+
+  // creates an empty array to filter out duplicates
+  let shownBrands = []
+  // loops through the brand array
+  brandList.forEach((brand) => {
+    // only continues if not a duplicate
+    if (!shownBrands.includes(brand)) {
+      let brandListing = document.createElement('li')
+      // sets the content to the brand name
+      brandListing.textContent = brand
+      // preps the location
+      let brandLocation = document.getElementById('brand-list')
+      // adds the item to the page
+      brandLocation.appendChild(brandListing)
+      // appends to the array so no duplicates get displayed
+      shownBrands.push(brand)
+
+    }
+  })
+}
+
+// runs the function
+showBrands()
+
+// funtion that turns ugly data into a presentable string
+function stringifyNames(item) {
+  // loops through returning a string from each entry into a new array
+    return `${item.brand} ${item.type} - ${item.name}`
+}
+function stringifyPrice(item) {
+  // returns price
+    return `€${item.price},-`
+}
+
+// small function to save to writing
+function convertToCm(inches) {
+  return inches * 2.54
+}
+
+function stringifySizes(item) {
+   // loops through the sizes in the item object
+    return item.availableSizes.map((size) => {
+      // returns a stringified version for each item, joining the arrays
+      return `${size} inch (${convertToCm(size)} cm)`
+    }).join(' | ')
+}
+
+function findRequest(requestedTv) {
+  // finds the requested TV and returns the info
+  return inventory.find((item) => {
+    return item.type === requestedTv
+  })
+}
+
+function displayRequest(requestedTV) {
+  const requestAnswer = findRequest(requestedTV)
+
+  // creates a div to output in
+  const tvTile = document.createElement('div')
+  // sets background colour
+  tvTile.style.backgroundColor = 'darkOrange'
+
+  const tvInfo1 = document.createElement('p')
+  tvInfo1.textContent = stringifyNames(requestAnswer)
+  tvInfo1.style.color = 'white'
+
+  const tvInfo2 = document.createElement('p')
+  tvInfo2.textContent = stringifyPrice(requestAnswer)
+  tvInfo2.style.color = 'white'
+
+  const tvInfo3 = document.createElement('p')
+  tvInfo3.textContent = stringifySizes(requestAnswer)
+  tvInfo3.style.color = 'white'
+
+
+  const tvField = document.getElementById('tv-specs')
+  tvField.appendChild(tvTile)
+  tvTile.appendChild(tvInfo1)
+  tvTile.appendChild(tvInfo2)
+  tvTile.appendChild(tvInfo3)
+
+
+}
+
+displayRequest('43PUS6504/12')
+function displayInventoryItem(item) {
+
+}
