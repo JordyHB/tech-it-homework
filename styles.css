@@ -7,3 +7,8 @@ section {
     flex-direction: row;
     justify-content: space-evenly;
 }
+
+#tv-specs {
+    display: flex;
+    flex-wrap: wrap;
+}
