@@ -167,32 +167,38 @@ const tvTypes = inventory.map((item) => {
   return item.name
 })
 
-// loops using the filter method looking for soldout items
-const soldOut = inventory.filter((item) => {
-  // checks if items sold equeals the original stock before returning as soldOut
-  if (item.originalStock - item.sold === 0) {
-    return item
-  }
-})
+function listSoldOut() {
+  // loops using the filter method looking for soldout items
+  return inventory.filter((item) => {
+    // checks if items sold equals the original stock before returning as soldOut
+    if (item.originalStock - item.sold === 0) {
+      return item
+    }
+  })
+}
 
-// loops looking for AmbiLight option
-const hasAmbiLight = inventory.filter((item) => {
-  // only returns if AmbiLight comes back as True
-  return item.options.ambiLight
-})
+function listAmbiLight() {
+  // loops looking for AmbiLight option
+  return  inventory.filter((item) => {
+    // only returns if AmbiLight comes back as True
+    return item.options.ambiLight
+  })
+}
 
-// loops through and sorts the inventory based on price
-const priceSorted = inventory.sort((a, b) => {
-  // compares the price of 2 entries putting 1 ahead of the other based on positive or negative numbers
-  return a.price - b.price
-})
+function listPriceSorted() {
+  // loops through and sorts the inventory based on price
+  return inventory.sort((a, b) => {
+    // compares the price of 2 entries putting 1 ahead of the other based on positive or negative numbers
+    return a.price - b.price
+  })
+}
 
 // logs the outcomes of the previous scripts
 console.log('Deel 1')
 console.log(tvTypes)
-console.log(soldOut)
-console.log(hasAmbiLight)
-console.log(priceSorted)
+console.log(listSoldOut())
+console.log(listAmbiLight())
+console.log(listPriceSorted())
 
 
 // preps the variable for TVs sold
@@ -356,3 +362,42 @@ function displayEntireInventory() {
 displayEntireInventory()
 
 
+sortButton = document.getElementById('sort-button')
+ambiButton = document.getElementById('ambi-light-button')
+soldOutButton = document.getElementById('sold-out-button')
+tvfield = document.getElementById('tv-specs')
+sortButton.addEventListener('click', () => {
+  // compact loop that clears all the previous entries
+  while (tvfield.firstChild) {
+    tvfield.firstChild.remove()
+  }
+
+  // gets the requested list and loops through displaying each item
+  listPriceSorted().forEach((item) => {
+    displayRequest(item.type)
+  })
+})
+
+ambiButton.addEventListener('click', () => {
+  // compact loop that clears all the previous entries
+  while (tvfield.firstChild) {
+    tvfield.firstChild.remove()
+  }
+
+  // gets the requested list and loops through displaying each item
+  listAmbiLight().forEach((item) => {
+    displayRequest(item.type)
+  })
+})
+
+soldOutButton.addEventListener('click', () => {
+  // compact loop that clears all the previous entries
+  while (tvfield.firstChild) {
+    tvfield.firstChild.remove()
+  }
+
+  // gets the requested list and loops through displaying each item
+  listSoldOut().forEach((item) => {
+    displayRequest(item.type)
+  })
+})
