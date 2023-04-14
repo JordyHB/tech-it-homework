@@ -344,54 +344,15 @@ function displayRequest(requestedTV) {
 // runs the function with the requested tv
 displayRequest('43PUS6504/12')
 
-
-function stringifyInventory() {
-  return inventory.map((item) => {
-    // creates an array to return
-    let itemInfo = []
-    // pushes to the array
-    itemInfo.push(stringifyNames(item))
-    itemInfo.push(stringifyPrice(item))
-    itemInfo.push(stringifySizes(item))
-    // returns the array
-    return itemInfo
+// loops through all inventory items placing them all on the page
+function displayEntireInventory() {
+  inventory.forEach((item) => {
+    // makes the request the type of different tv every loop
+    displayRequest(item.type)
   })
-
 }
 
-function placeOnPage() {
-
-  // calls a function to create an array with only the needed info
-  const itemArrays = stringifyInventory()
-  // Loops through all items placing them on the page
-  itemArrays.forEach((item) => {
-
-    // creates a div to output in
-    const invTile = document.createElement('div')
-    // sets background colour
-    invTile.style.backgroundColor = 'purple'
-
-    const invInfo1 = document.createElement('p')
-    invInfo1.textContent = item[0]
-    invInfo1.style.color = 'white'
-
-    const invInfo2 = document.createElement('p')
-    invInfo2.textContent = item[1]
-    invInfo2.style.color = 'white'
-
-    const invInfo3 = document.createElement('p')
-    invInfo3.textContent = item[2]
-    invInfo3.style.color = 'white'
+// runs the function
+displayEntireInventory()
 
 
-    const invField = document.getElementById('tv-specs')
-    invField.appendChild(invTile)
-    invTile.appendChild(invInfo1)
-    invTile.appendChild(invInfo2)
-    invTile.appendChild(invInfo3)
-
-  })
-
-}
-
-placeOnPage()
