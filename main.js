@@ -171,9 +171,7 @@ function listSoldOut() {
   // loops using the filter method looking for soldout items
   return inventory.filter((item) => {
     // checks if items sold equals the original stock before returning as soldOut
-    if (item.originalStock - item.sold === 0) {
-      return item
-    }
+    return item.originalStock === item.sold
   })
 }
 
@@ -206,7 +204,7 @@ let tvsSold = 0
 
 // loops through the array using the forEach method
 inventory.forEach((item) => {
-  tvsSold = tvsSold + item.sold
+  tvsSold += item.sold
 })
 
 // creates a new p element
