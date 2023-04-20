@@ -1,0 +1,14 @@
+html {
+    background: beige;
+}
+
+section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#tv-specs {
+    display: flex;
+    flex-wrap: wrap;
+}

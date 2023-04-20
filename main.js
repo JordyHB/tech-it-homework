@@ -161,3 +161,241 @@ const inventory = [
     sold: 8,
   },
 ];
+
+// loops using the map method extracting the types into a new array
+const tvTypes = inventory.map((item) => {
+  return item.name
+})
+
+function listSoldOut() {
+  // loops using the filter method looking for soldout items
+  return inventory.filter((item) => {
+    // checks if items sold equals the original stock before returning as soldOut
+    return item.originalStock === item.sold
+  })
+}
+
+function listAmbiLight() {
+  // loops looking for AmbiLight option
+  return  inventory.filter((item) => {
+    // only returns if AmbiLight comes back as True
+    return item.options.ambiLight
+  })
+}
+
+function listPriceSorted() {
+  // loops through and sorts the inventory based on price
+  return inventory.sort((a, b) => {
+    // compares the price of 2 entries putting 1 ahead of the other based on positive or negative numbers
+    return a.price - b.price
+  })
+}
+
+// logs the outcomes of the previous scripts
+console.log('Deel 1')
+console.log(tvTypes)
+console.log(listSoldOut())
+console.log(listAmbiLight())
+console.log(listPriceSorted())
+
+
+// preps the variable for TVs sold
+let tvsSold = 0
+
+// loops through the array using the forEach method
+inventory.forEach((item) => {
+  tvsSold += item.sold
+})
+
+// creates a new p element
+const soldCounter = document.createElement('p')
+// sets the text inside to the number stored in TvsSold
+soldCounter.textContent = tvsSold.toString()
+// changes the color to green
+soldCounter.style.color = 'green'
+// gets the location where it needs to be place on the page
+soldBox = document.getElementById('tvs-sold')
+// places it on the page
+soldBox.appendChild(soldCounter)
+
+// preps the variable for bought tvs
+let tvsBought = 0
+
+// loops through the array using the forEach method
+inventory.forEach((item) => {
+  tvsBought = tvsBought + item.originalStock
+})
+
+// creates a new p element
+const boughtCounter = document.createElement('p')
+// sets the text inside to the number stored
+boughtCounter.textContent = tvsBought.toString()
+// changes the color to blue
+boughtCounter.style.color = 'blue'
+// gets the location where it needs to be place on the page
+boughtBox = document.getElementById('tvs-bought')
+// places it on the page
+boughtBox.appendChild(boughtCounter)
+
+// subtracts sold TVs from stock
+let leftInStock = tvsBought - tvsSold
+// creates a new element to store it in
+const stockCounter = document.createElement('p')
+// stores the number inside the new element
+stockCounter.textContent = leftInStock.toString()
+// sets the colour of the new element
+stockCounter.style.color = 'red'
+// preps the location on the page
+stockBox = document.getElementById('in-stock')
+// places it on the page
+stockBox.appendChild(stockCounter)
+
+// logs the outcomes of the previous scripts
+console.log('Deel 2')
+console.log(tvsSold)
+console.log(tvsBought)
+console.log(leftInStock)
+
+function  showBrands() {
+  // creates a new array with all the brands in the inventory
+  const brandList = inventory.map((item) => {
+    return item.brand
+  })
+
+  // creates an empty array to filter out duplicates
+  let shownBrands = []
+  // loops through the brand array
+  brandList.forEach((brand) => {
+    // only continues if not a duplicate
+    if (!shownBrands.includes(brand)) {
+      let brandListing = document.createElement('li')
+      // sets the content to the brand name
+      brandListing.textContent = brand
+      // preps the location
+      let brandLocation = document.getElementById('brand-list')
+      // adds the item to the page
+      brandLocation.appendChild(brandListing)
+      // appends to the array so no duplicates get displayed
+      shownBrands.push(brand)
+
+    }
+  })
+}
+
+// runs the function
+showBrands()
+
+// funtion that turns ugly data into a presentable string
+function stringifyNames(item) {
+  // loops through returning a string from each entry into a new array
+    return `${item.brand} ${item.type} - ${item.name}`
+}
+function stringifyPrice(item) {
+  // returns price
+    return `€${item.price},-`
+}
+
+// small function to save to writing
+function convertToCm(inches) {
+  return inches * 2.54
+}
+
+function stringifySizes(item) {
+   // loops through the sizes in the item object
+    return item.availableSizes.map((size) => {
+      // returns a stringified version for each item, joining the arrays
+      return `${size} inch (${convertToCm(size)} cm)`
+    }).join(' | ')
+}
+
+function findRequest(requestedTv) {
+  // finds the requested TV and returns the info
+  return inventory.find((item) => {
+    return item.type === requestedTv
+  })
+}
+
+function displayRequest(requestedTV) {
+  const requestAnswer = findRequest(requestedTV)
+
+  // creates a div to output in
+  const tvTile = document.createElement('div')
+  // sets background colour
+  tvTile.style.backgroundColor = 'darkOrange'
+
+  const tvInfo1 = document.createElement('p')
+  tvInfo1.textContent = stringifyNames(requestAnswer)
+  tvInfo1.style.color = 'white'
+
+  const tvInfo2 = document.createElement('p')
+  tvInfo2.textContent = stringifyPrice(requestAnswer)
+  tvInfo2.style.color = 'white'
+
+  const tvInfo3 = document.createElement('p')
+  tvInfo3.textContent = stringifySizes(requestAnswer)
+  tvInfo3.style.color = 'white'
+
+
+  const tvField = document.getElementById('tv-specs')
+  tvField.appendChild(tvTile)
+  tvTile.appendChild(tvInfo1)
+  tvTile.appendChild(tvInfo2)
+  tvTile.appendChild(tvInfo3)
+
+
+}
+
+// runs the function with the requested tv
+displayRequest('43PUS6504/12')
+
+// loops through all inventory items placing them all on the page
+function displayEntireInventory() {
+  inventory.forEach((item) => {
+    // makes the request the type of different tv every loop
+    displayRequest(item.type)
+  })
+}
+
+// runs the function
+displayEntireInventory()
+
+
+sortButton = document.getElementById('sort-button')
+ambiButton = document.getElementById('ambi-light-button')
+soldOutButton = document.getElementById('sold-out-button')
+tvfield = document.getElementById('tv-specs')
+sortButton.addEventListener('click', () => {
+  // compact loop that clears all the previous entries
+  while (tvfield.firstChild) {
+    tvfield.firstChild.remove()
+  }
+
+  // gets the requested list and loops through displaying each item
+  listPriceSorted().forEach((item) => {
+    displayRequest(item.type)
+  })
+})
+
+ambiButton.addEventListener('click', () => {
+  // compact loop that clears all the previous entries
+  while (tvfield.firstChild) {
+    tvfield.firstChild.remove()
+  }
+
+  // gets the requested list and loops through displaying each item
+  listAmbiLight().forEach((item) => {
+    displayRequest(item.type)
+  })
+})
+
+soldOutButton.addEventListener('click', () => {
+  // compact loop that clears all the previous entries
+  while (tvfield.firstChild) {
+    tvfield.firstChild.remove()
+  }
+
+  // gets the requested list and loops through displaying each item
+  listSoldOut().forEach((item) => {
+    displayRequest(item.type)
+  })
+})
